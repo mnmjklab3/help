@@ -9,11 +9,37 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
-    body { margin: 0; overflow: hidden; }
+   body {
+     margin: 0;
+     overflow: hidden;
+     background: #00141f;
+     font-family: system-ui, sans-serif;
+   }
+  
+    #title {
+      position: fixed;
+      top: 16px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #6fd3ff;
+      letter-spacing: 0.1em;
+      pointer-events: none;
+      text-shadow: 0 0 8px rgba(100,200,255,0.6);
+    }
+    
+    #tint {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,60,90,0.12);
+      pointer-events: none;
+    }
   </style>
 </head>
 
 <body>
+  <div id="title">WebAR · Sea Spirit</div>
+  <div id="tint"></div>
   <a-scene
     mindar-image="imageTargetSrc: targets-3.mind;"
     renderer="antialias: false; precision: mediump"
@@ -36,7 +62,7 @@
     ></a-gltf-model>
     </a-entity>
     
-   <script>
+  <script>
   AFRAME.registerComponent("scan-cooldown", {
     init() {
       this.lastTime = 0;
