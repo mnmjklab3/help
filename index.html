@@ -36,28 +36,40 @@
     ></a-gltf-model>
     </a-entity>
     
-    <script>
-    AFRAME.registerComponent("scan-cooldown", {
-      init() {
-    
-        this.lastTime = 0;
-        this.cooldown = 2000;
-    
-        const model = this.el.querySelector("a-gltf-model");
-    
-        this.el.addEventListener("targetFound", () => {
-          const now = Date.now();
-          if (now - this.lastTime < this.cooldown) return;
-          this.lastTime = now;
-    
-          const mixer = model.components["animation-mixer"];
-    
-          mixer.stopAction();
-          mixer.playAction("Animation");
+   <script>
+  AFRAME.registerComponent("scan-cooldown", {
+    init() {
+      this.lastTime = 0;
+      this.cooldown = 2000;
+  
+      const modelEl = this.el.querySelector("#angel");
+  
+      // když se GLB načte
+      modelEl.addEventListener("model-loaded", (e) => {
+        const gltf = e.detail.model;
+        const animations = e.detail.model.animations || [];
+  
+        console.log("🩸 GLB animations found:");
+        animations.forEach((clip, i) => {
+          console.log(i + ":", clip.name);
         });
-      }
-    });
-    </script>
+      });
+  
+      this.el.addEventListener("targetFound", () => {
+        const now = Date.now();
+        if (now - this.lastTime < this.cooldown) return;
+        this.lastTime = now;
+  
+        const mixer = modelEl.components["animation-mixer"];
+        if (!mixer) return;
+  
+        console.log("▶ Playing first animation");
+        mixer.stopAllAction();
+        mixer.playAction(); // zahraje první nalezenou animaci
+      });
+    }
+  });
+  </script>
   </a-scene>
 </body>
 </html>
