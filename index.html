@@ -30,7 +30,7 @@
     <a-entity mindar-image-target="targetIndex: 0" scan-cooldown>
     <a-gltf-model
       src="#model"
-      scale="0.01 0.01 0.01"
+      scale="0.005 0.005 0.005"
       position="0 0 0"
       animation-mixer="clip: Animation; loop: repeat; clampWhenFinished: true"
     ></a-gltf-model>
@@ -44,15 +44,9 @@
   
       const modelEl = this.el.querySelector("#angel");
   
-      // když se GLB načte
       modelEl.addEventListener("model-loaded", (e) => {
         const gltf = e.detail.model;
         const animations = e.detail.model.animations || [];
-  
-        console.log("GLB animations found:");
-        animations.forEach((clip, i) => {
-          console.log(i + ":", clip.name);
-        });
       });
   
       this.el.addEventListener("targetFound", () => {
@@ -63,7 +57,6 @@
         const mixer = modelEl.components["animation-mixer"];
         if (!mixer) return;
   
-        console.log("▶ Playing first animation");
         mixer.stopAllAction();
         mixer.playAction();
       });
